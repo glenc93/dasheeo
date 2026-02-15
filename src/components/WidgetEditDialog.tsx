@@ -35,7 +35,7 @@ export function WidgetEditDialog({ open, widget, onClose, onSave }: WidgetEditDi
   };
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
+    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth PaperProps={{ sx: { bgcolor: 'background.paper' } }}>
       <DialogTitle>Edit Widget</DialogTitle>
       <DialogContent>
         <Stack spacing={2} sx={{ mt: 1 }}>
@@ -44,6 +44,10 @@ export function WidgetEditDialog({ open, widget, onClose, onSave }: WidgetEditDi
             value={name}
             onChange={(e) => setName(e.target.value)}
             fullWidth
+            sx={{
+              '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' },
+              '& .MuiFormHelperText-root': { color: 'rgba(255, 255, 255, 0.7)' },
+            }}
           />
           <TextField
             label="Service Type"
@@ -51,6 +55,10 @@ export function WidgetEditDialog({ open, widget, onClose, onSave }: WidgetEditDi
             onChange={(e) => setServiceType(e.target.value)}
             fullWidth
             helperText="e.g., plex, sonarr, radarr"
+            sx={{
+              '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' },
+              '& .MuiFormHelperText-root': { color: 'rgba(255, 255, 255, 0.7)' },
+            }}
           />
         </Stack>
       </DialogContent>

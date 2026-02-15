@@ -12,8 +12,11 @@ import {
   Toolbar,
   Button,
   Stack,
+  FormLabel,
+  ToggleButtonGroup,
+  ToggleButton,
 } from '@mui/material';
-import { ArrowBack } from '@mui/icons-material';
+import { ArrowBack, ViewDay, ViewSidebar, ViewSidebarOutlined } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useThemeStore } from '@/store/themeStore';
@@ -22,7 +25,7 @@ import { useSnackbar } from 'notistack';
 
 export default function SettingsPage() {
   const router = useRouter();
-  const { pageTitle, setPageTitle, resetSettings } = useSettingsStore();
+  const { pageTitle, layout, setPageTitle, setLayout, resetSettings } = useSettingsStore();
   const { mode, setMode } = useThemeStore();
   const { enqueueSnackbar } = useSnackbar();
   
@@ -70,8 +73,32 @@ export default function SettingsPage() {
               />
             }
             label="Light Mode"
-            sx={{ mb: 3 }}
+            sx={{ mb: 3, display: 'block' }}
           />
+          <Box sx={{ mb: 3 }}>
+            <FormLabel component="legend" sx={{ mb: 1 }}>
+              Layout
+            </FormLabel>
+            <ToggleButtonGroup
+              value={layout}
+              exclusive
+              onChange={(e, newLayout) => newLayout && setLayout(newLayout)}
+              aria-label="layout"
+            >
+              <ToggleButton value="default" aria-label="default layout">
+                <ViewDay sx={{ mr: 1 }} />
+                Top Bar
+              </ToggleButton>
+              <ToggleButton value="sidebar-left" aria-label="sidebar left">
+                <ViewSidebar sx={{ mr: 1 }} />
+                Left
+              </ToggleButton>
+              <ToggleButton value="sidebar-right" aria-label="sidebar right">
+                <ViewSidebarOutlined sx={{ mr: 1, transform: 'scaleX(-1)' }} />
+                Right
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </Box>
           <Stack direction="row" spacing={2}>
             <Button variant="contained" onClick={handleSave}>
               Save

@@ -37,7 +37,7 @@ export function WidgetCreateDialog({ open, onClose, onCreate }: WidgetCreateDial
   };
 
   return (
-    <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
+    <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth PaperProps={{ sx: { bgcolor: 'background.paper' } }}>
       <DialogTitle>Add New Widget</DialogTitle>
       <DialogContent>
         <Stack spacing={2} sx={{ mt: 1 }}>
@@ -47,6 +47,10 @@ export function WidgetCreateDialog({ open, onClose, onCreate }: WidgetCreateDial
             onChange={(e) => setName(e.target.value)}
             fullWidth
             required
+            sx={{
+              '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' },
+              '& .MuiFormHelperText-root': { color: 'rgba(255, 255, 255, 0.7)' },
+            }}
           />
           <TextField
             label="Service Type"
@@ -55,6 +59,10 @@ export function WidgetCreateDialog({ open, onClose, onCreate }: WidgetCreateDial
             fullWidth
             required
             helperText="e.g., plex, sonarr, radarr"
+            sx={{
+              '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' },
+              '& .MuiFormHelperText-root': { color: 'rgba(255, 255, 255, 0.7)' },
+            }}
           />
         </Stack>
       </DialogContent>
