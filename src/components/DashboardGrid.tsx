@@ -1,15 +1,14 @@
 'use client';
 
 import { useDashboardStore } from '@/store/dashboardStore';
-import { Box, Button } from '@mui/material';
-import { Add } from '@mui/icons-material';
+import { Box } from '@mui/material';
 import GridLayout from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import { WidgetCard } from './WidgetCard';
 
 export function DashboardGrid() {
-  const { widgets, updateLayout, addWidget } = useDashboardStore();
+  const { widgets, updateLayout } = useDashboardStore();
 
   const handleLayoutChange = (layout: any[]) => {
     const updatedWidgets = widgets.map((widget) => {
@@ -19,23 +18,8 @@ export function DashboardGrid() {
     updateLayout(updatedWidgets);
   };
 
-  const handleAddWidget = () => {
-    const newWidget = {
-      id: `widget-${Date.now()}`,
-      type: 'example',
-      x: 0,
-      y: Infinity,
-      w: 4,
-      h: 2,
-    };
-    addWidget(newWidget);
-  };
-
   return (
     <Box>
-      <Button startIcon={<Add />} variant="contained" onClick={handleAddWidget} sx={{ mb: 2 }}>
-        Add Widget
-      </Button>
       <GridLayout
         className="layout"
         layout={widgets.map((w) => ({ i: w.id, x: w.x, y: w.y, w: w.w, h: w.h }))}
