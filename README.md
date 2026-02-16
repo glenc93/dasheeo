@@ -1,6 +1,6 @@
 # Dasheeo
 
-Dasheeo is a personal customizable dashboard project for homelab environments. Built with Next.js, React, TypeScript, and Material-UI.
+Dasheeo is a customizable dashboard project for homelab environments. Built with Next.js, React, TypeScript, and Material-UI.
 
 ## Features
 
@@ -68,10 +68,3 @@ src/
 └── types/           # TypeScript types
 ```
 
-## Documentation
-
-See the [docs](./docs) folder for detailed guides:
-- [Getting Started](./docs/getting-started.md)
-- [Docker Setup](./docs/docker-setup.md)
-- [Configuration Guide](./docs/configuration.md)
-- [Creating Custom Widgets](./docs/custom-widgets.md)
