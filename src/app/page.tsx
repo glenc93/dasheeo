@@ -16,7 +16,7 @@ export default function Home() {
   const [createOpen, setCreateOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  const handleCreateWidget = (widgetData: { name: string; type: string }) => {
+  const handleCreateWidget = (widgetData: { name: string; type: string; apiUrl?: string; apiKey?: string }) => {
     const newWidget = {
       id: `widget-${Date.now()}`,
       type: widgetData.type,
@@ -26,6 +26,8 @@ export default function Home() {
       h: 2,
       config: {
         name: widgetData.name,
+        apiUrl: widgetData.apiUrl,
+        apiKey: widgetData.apiKey,
       },
     };
     addWidget(newWidget);

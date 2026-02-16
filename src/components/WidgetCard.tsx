@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, CardContent, CardHeader, IconButton, Chip, Box, CircularProgress } from '@mui/material';
+import { Card, CardContent, IconButton, Chip, Box, CircularProgress, Typography } from '@mui/material';
 import { Close, DragIndicator, Edit } from '@mui/icons-material';
 import { useDashboardStore, Widget } from '@/store/dashboardStore';
 import { useQuery } from '@tanstack/react-query';
@@ -19,7 +19,11 @@ export function WidgetCard({ widget }: WidgetCardProps) {
   const { data, isLoading, isError } = useQuery({
     queryKey: ['widget-status', widget.id],
     queryFn: async () => {
-      const response = await axios.get(`/api/proxy?service=${widget.type}`);
+      const params = new URLSearchParams({ service: widget.type });
+      if (widget.config?.apiUrl) params.append('apiUrl', widget.config.apiUrl);
+      if (widget.config?.apiKey) params.append('apiKey', widget.config.apiKey);
+      
+      const response = await axios.get(`/api/proxy?${params.toString()}`);
       return response.data;
     },
     refetchInterval: 30000,
@@ -43,10 +47,15 @@ export function WidgetCard({ widget }: WidgetCardProps) {
   return (
     <>
       <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2, pt: 2 }}>
-          <IconButton size="small" className="drag-handle" sx={{ cursor: 'move' }}>
-            <DragIndicator />
-          </IconButton>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2, pt: 2, pb: 1 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <IconButton size="small" className="drag-handle" sx={{ cursor: 'move' }}>
+              <DragIndicator />
+            </IconButton>
+            <Typography variant="h5">
+              {widget.config?.name || `${widget.type} Widget`}
+            </Typography>
+          </Box>
           <Box>
             <IconButton size="small" onClick={() => setEditOpen(true)}>
               <Edit />
@@ -56,12 +65,10 @@ export function WidgetCard({ widget }: WidgetCardProps) {
             </IconButton>
           </Box>
         </Box>
-        <CardHeader
-          title={widget.config?.name || `${widget.type} Widget`}
-          subheader={getStatusChip()}
-          sx={{ pt: 1 }}
-        />
-        <CardContent sx={{ flexGrow: 1 }}>
+        <Box sx={{ px: 2, pb: 1 }}>
+          {getStatusChip()}
+        </Box>
+        <CardContent sx={{ flexGrow: 1, pt: 0 }}>
           <Box>
             {isLoading && <p>Loading data...</p>}
             {isError && <p>Unable to connect to service</p>}

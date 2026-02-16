@@ -22,6 +22,8 @@ interface WidgetEditDialogProps {
 export function WidgetEditDialog({ open, widget, onClose, onSave }: WidgetEditDialogProps) {
   const [name, setName] = useState(widget.config?.name || '');
   const [serviceType, setServiceType] = useState(widget.type);
+  const [apiUrl, setApiUrl] = useState(widget.config?.apiUrl || '');
+  const [apiKey, setApiKey] = useState(widget.config?.apiKey || '');
 
   const handleSave = () => {
     onSave({
@@ -29,6 +31,8 @@ export function WidgetEditDialog({ open, widget, onClose, onSave }: WidgetEditDi
       config: {
         ...widget.config,
         name,
+        apiUrl,
+        apiKey,
       },
     });
     onClose();
@@ -55,6 +59,29 @@ export function WidgetEditDialog({ open, widget, onClose, onSave }: WidgetEditDi
             onChange={(e) => setServiceType(e.target.value)}
             fullWidth
             helperText="e.g., plex, sonarr, radarr"
+            sx={{
+              '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' },
+              '& .MuiFormHelperText-root': { color: 'rgba(255, 255, 255, 0.7)' },
+            }}
+          />
+          <TextField
+            label="API URL"
+            value={apiUrl}
+            onChange={(e) => setApiUrl(e.target.value)}
+            fullWidth
+            helperText="e.g., http://192.168.1.100:8989"
+            sx={{
+              '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' },
+              '& .MuiFormHelperText-root': { color: 'rgba(255, 255, 255, 0.7)' },
+            }}
+          />
+          <TextField
+            label="API Key"
+            value={apiKey}
+            onChange={(e) => setApiKey(e.target.value)}
+            fullWidth
+            type="password"
+            helperText="Optional: API key or token"
             sx={{
               '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' },
               '& .MuiFormHelperText-root': { color: 'rgba(255, 255, 255, 0.7)' },
