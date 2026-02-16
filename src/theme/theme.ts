@@ -10,6 +10,30 @@ export const lightTheme = createTheme({
       main: '#ff79c6',
     },
   },
+  components: {
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          '& .MuiInputLabel-root': {
+            color: '#bd93f9',
+          },
+          '& .MuiInputLabel-root.Mui-focused': {
+            color: '#bd93f9',
+          },
+          '& .MuiFormHelperText-root': {
+            color: '#bd93f9',
+          },
+        },
+      },
+    },
+    MuiFormLabel: {
+      styleOverrides: {
+        root: {
+          color: '#bd93f9',
+        },
+      },
+    },
+  },
 });
 
 export const darkTheme = createTheme({
@@ -40,6 +64,30 @@ export const darkTheme = createTheme({
     },
     success: {
       main: '#50fa7b',
+    },
+  },
+  components: {
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          '& .MuiInputLabel-root': {
+            color: '#bd93f9',
+          },
+          '& .MuiInputLabel-root.Mui-focused': {
+            color: '#bd93f9',
+          },
+          '& .MuiFormHelperText-root': {
+            color: '#bd93f9',
+          },
+        },
+      },
+    },
+    MuiFormLabel: {
+      styleOverrides: {
+        root: {
+          color: '#bd93f9',
+        },
+      },
     },
   },
 });

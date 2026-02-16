@@ -16,16 +16,17 @@ import {
   ToggleButtonGroup,
   ToggleButton,
 } from '@mui/material';
-import { ArrowBack, ViewDay, ViewSidebar, ViewSidebarOutlined } from '@mui/icons-material';
+import { ArrowBack, ViewDay, ViewSidebar, ViewSidebarOutlined, LightMode, DarkMode, Visibility, VisibilityOff } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useThemeStore } from '@/store/themeStore';
+import { Footer } from '@/components/Footer';
 import { useState } from 'react';
 import { useSnackbar } from 'notistack';
 
 export default function SettingsPage() {
   const router = useRouter();
-  const { pageTitle, layout, setPageTitle, setLayout, resetSettings } = useSettingsStore();
+  const { pageTitle, layout, showFooter, setPageTitle, setLayout, setShowFooter, resetSettings } = useSettingsStore();
   const { mode, setMode } = useThemeStore();
   const { enqueueSnackbar } = useSnackbar();
   
@@ -44,7 +45,7 @@ export default function SettingsPage() {
   };
 
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', bgcolor: 'background.default' }}>
       <Toolbar sx={{ borderBottom: 1, borderColor: 'divider', mb: 2 }}>
         <IconButton onClick={() => router.push('/')} sx={{ mr: 2 }}>
           <ArrowBack />
@@ -53,7 +54,7 @@ export default function SettingsPage() {
           Settings
         </Typography>
       </Toolbar>
-      <Container maxWidth="md">
+      <Container maxWidth="md" sx={{ flexGrow: 1 }}>
         <Paper sx={{ p: 3 }}>
           <Typography variant="h6" gutterBottom>
             General Settings
@@ -65,16 +66,32 @@ export default function SettingsPage() {
             fullWidth
             sx={{ mb: 3 }}
           />
-          <FormControlLabel
-            control={
+          <Box sx={{ mb: 3 }}>
+            <FormLabel component="legend" sx={{ mb: 1 }}>
+              Theme
+            </FormLabel>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <DarkMode />
               <Switch
                 checked={mode === 'light'}
                 onChange={(e) => setMode(e.target.checked ? 'light' : 'dark')}
               />
-            }
-            label="Light Mode"
-            sx={{ mb: 3, display: 'block' }}
-          />
+              <LightMode />
+            </Box>
+          </Box>
+          <Box sx={{ mb: 3 }}>
+            <FormLabel component="legend" sx={{ mb: 1 }}>
+              Footer
+            </FormLabel>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <VisibilityOff />
+              <Switch
+                checked={showFooter}
+                onChange={(e) => setShowFooter(e.target.checked)}
+              />
+              <Visibility />
+            </Box>
+          </Box>
           <Box sx={{ mb: 3 }}>
             <FormLabel component="legend" sx={{ mb: 1 }}>
               Layout
@@ -109,6 +126,7 @@ export default function SettingsPage() {
           </Stack>
         </Paper>
       </Container>
+      <Footer />
     </Box>
   );
 }
