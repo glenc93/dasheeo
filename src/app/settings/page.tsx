@@ -7,7 +7,6 @@ import {
   TextField,
   Typography,
   Switch,
-  FormControlLabel,
   IconButton,
   Toolbar,
   Button,
@@ -15,6 +14,8 @@ import {
   FormLabel,
   ToggleButtonGroup,
   ToggleButton,
+  Tabs,
+  Tab,
 } from '@mui/material';
 import { ArrowBack, ViewDay, ViewSidebar, ViewSidebarOutlined, LightMode, DarkMode, Visibility, VisibilityOff } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
@@ -33,6 +34,7 @@ export default function SettingsPage() {
   const [localTitle, setLocalTitle] = useState(pageTitle);
   const [localGridCols, setLocalGridCols] = useState(gridCols);
   const [localGridRowHeight, setLocalGridRowHeight] = useState(gridRowHeight);
+  const [tab, setTab] = useState(0);
 
   const handleSave = () => {
     setPageTitle(localTitle);
@@ -62,89 +64,98 @@ export default function SettingsPage() {
       </Toolbar>
       <Container maxWidth="md" sx={{ flexGrow: 1 }}>
         <Paper sx={{ p: 3 }}>
-          <Typography variant="h6" gutterBottom>
-            General Settings
-          </Typography>
-          <TextField
-            label="Page Title"
-            value={localTitle}
-            onChange={(e) => setLocalTitle(e.target.value)}
-            fullWidth
-            sx={{ mb: 3 }}
-          />
-          <Typography variant="h6" gutterBottom sx={{ mt: 3 }}>
-            Grid Settings
-          </Typography>
-          <TextField
-            label="Grid Columns"
-            type="number"
-            value={localGridCols}
-            onChange={(e) => setLocalGridCols(Number(e.target.value))}
-            fullWidth
-            inputProps={{ min: 6, max: 24 }}
-            helperText="Number of columns (6-24)"
-            sx={{ mb: 2 }}
-          />
-          <TextField
-            label="Row Height (px)"
-            type="number"
-            value={localGridRowHeight}
-            onChange={(e) => setLocalGridRowHeight(Number(e.target.value))}
-            fullWidth
-            inputProps={{ min: 50, max: 300 }}
-            helperText="Height of each row (50-300px)"
-            sx={{ mb: 3 }}
-          />
-          <Box sx={{ mb: 3 }}>
-            <FormLabel component="legend" sx={{ mb: 1 }}>
-              Theme
-            </FormLabel>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <DarkMode />
-              <Switch
-                checked={mode === 'light'}
-                onChange={(e) => setMode(e.target.checked ? 'light' : 'dark')}
+          <Tabs value={tab} onChange={(e, v) => setTab(v)} sx={{ mb: 3, borderBottom: 1, borderColor: 'divider' }}>
+            <Tab label="General" />
+            <Tab label="Layout" />
+          </Tabs>
+
+          {tab === 0 && (
+            <Box>
+              <TextField
+                label="Page Title"
+                value={localTitle}
+                onChange={(e) => setLocalTitle(e.target.value)}
+                fullWidth
+                sx={{ mb: 3 }}
               />
-              <LightMode />
+              <Box sx={{ mb: 3 }}>
+                <FormLabel component="legend" sx={{ mb: 1 }}>
+                  Theme
+                </FormLabel>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <DarkMode />
+                  <Switch
+                    checked={mode === 'light'}
+                    onChange={(e) => setMode(e.target.checked ? 'light' : 'dark')}
+                  />
+                  <LightMode />
+                </Box>
+              </Box>
+              <Box sx={{ mb: 3 }}>
+                <FormLabel component="legend" sx={{ mb: 1 }}>
+                  Footer
+                </FormLabel>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <VisibilityOff />
+                  <Switch
+                    checked={showFooter}
+                    onChange={(e) => setShowFooter(e.target.checked)}
+                  />
+                  <Visibility />
+                </Box>
+              </Box>
             </Box>
-          </Box>
-          <Box sx={{ mb: 3 }}>
-            <FormLabel component="legend" sx={{ mb: 1 }}>
-              Footer
-            </FormLabel>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <VisibilityOff />
-              <Switch
-                checked={showFooter}
-                onChange={(e) => setShowFooter(e.target.checked)}
+          )}
+
+          {tab === 1 && (
+            <Box>
+              <Box sx={{ mb: 3 }}>
+                <FormLabel component="legend" sx={{ mb: 1 }}>
+                  Layout Style
+                </FormLabel>
+                <ToggleButtonGroup
+                  value={layout}
+                  exclusive
+                  onChange={(e, newLayout) => newLayout && setLayout(newLayout)}
+                  aria-label="layout"
+                >
+                  <ToggleButton value="default" aria-label="default layout">
+                    <ViewDay sx={{ mr: 1 }} />
+                    Top Bar
+                  </ToggleButton>
+                  <ToggleButton value="sidebar-left" aria-label="sidebar left">
+                    <ViewSidebar sx={{ mr: 1 }} />
+                    Left
+                  </ToggleButton>
+                  <ToggleButton value="sidebar-right" aria-label="sidebar right">
+                    <ViewSidebarOutlined sx={{ mr: 1, transform: 'scaleX(-1)' }} />
+                    Right
+                  </ToggleButton>
+                </ToggleButtonGroup>
+              </Box>
+              <TextField
+                label="Grid Columns"
+                type="number"
+                value={localGridCols}
+                onChange={(e) => setLocalGridCols(Number(e.target.value))}
+                fullWidth
+                inputProps={{ min: 6, max: 24 }}
+                helperText="Number of columns (6-24)"
+                sx={{ mb: 2 }}
               />
-              <Visibility />
+              <TextField
+                label="Row Height (px)"
+                type="number"
+                value={localGridRowHeight}
+                onChange={(e) => setLocalGridRowHeight(Number(e.target.value))}
+                fullWidth
+                inputProps={{ min: 50, max: 300 }}
+                helperText="Height of each row (50-300px)"
+                sx={{ mb: 3 }}
+              />
             </Box>
-          </Box>
-          <Box sx={{ mb: 3 }}>
-            <FormLabel component="legend" sx={{ mb: 1 }}>
-              Layout
-            </FormLabel>
-            <ToggleButtonGroup
-              value={layout}
-              exclusive
-              onChange={(e, newLayout) => newLayout && setLayout(newLayout)}
-              aria-label="layout"
-            >
-              <ToggleButton value="default" aria-label="default layout">
-                <ViewDay sx={{ mr: 1 }} />
-                Top Bar
-              </ToggleButton>
-              <ToggleButton value="sidebar-left" aria-label="sidebar left">
-                <ViewSidebar sx={{ mr: 1 }} />
-                Left
-              </ToggleButton>
-              <ToggleButton value="sidebar-right" aria-label="sidebar right">
-                <ViewSidebarOutlined sx={{ mr: 1, transform: 'scaleX(-1)' }} />
-                Right
-              </ToggleButton>
-            </ToggleButtonGroup>
-          </Box>
+          )}
+
           <Stack direction="row" spacing={2}>
             <Button variant="contained" onClick={handleSave}>
               Save
