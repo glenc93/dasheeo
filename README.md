@@ -1,4 +1,4 @@
-git p# Dasheeo
+Dasheeo
 
 Dasheeo is a customizable dashboard project for homelab environments. Built with Next.js, React, TypeScript, and Material-UI.
 
