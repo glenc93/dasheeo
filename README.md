@@ -4,10 +4,12 @@ Dasheeo is a personal customizable dashboard project for homelab environments. B
 
 ## Features
 
-- 🎨 Material-UI components with dark/light theme
-- 📊 Drag-and-drop widget system
-- 🔌 API proxy for self-hosted services
+- 🎨 Material-UI components with dark/light theme (Dracula colors)
+- 📊 Drag-and-drop widget system with resizing
+- 🔌 Per-widget API configuration (URL + key)
+- 🔒 API proxy for self-hosted services (avoids CORS)
 - 💾 Persistent configuration with Zustand
+- 🎯 Multiple layout options (top bar, left/right sidebar)
 - 🐳 Docker support for easy deployment
 - ⚡ React Query for data fetching and caching
 
@@ -33,6 +35,24 @@ Open [http://localhost:3000](http://localhost:3000)
 docker-compose up -d
 ```
 
+## Configuration
+
+### Per-Widget API Setup
+
+Each widget can have its own API URL and key configured through the UI:
+1. Click "Add Widget"
+2. Enter name, service type, API URL, and API key
+3. Credentials are stored securely in browser local storage
+
+### Environment Variables (Optional)
+
+Create `.env` for fallback credentials:
+
+```env
+SERVICE_URL=http://localhost:8080
+SERVICE_API_KEY=your_api_key_here
+```
+
 ## Project Structure
 
 ```
@@ -48,9 +68,10 @@ src/
 └── types/           # TypeScript types
 ```
 
-## Next Steps
+## Documentation
 
-1. Create widget components for your self-hosted services
-2. Configure API endpoints in environment variables
-3. Customize the theme in `src/theme/theme.ts`
-4. Add service-specific widgets in `src/components/`
+See the [docs](./docs) folder for detailed guides:
+- [Getting Started](./docs/getting-started.md)
+- [Docker Setup](./docs/docker-setup.md)
+- [Configuration Guide](./docs/configuration.md)
+- [Creating Custom Widgets](./docs/custom-widgets.md)
