@@ -26,14 +26,18 @@ import { useSnackbar } from 'notistack';
 
 export default function SettingsPage() {
   const router = useRouter();
-  const { pageTitle, layout, showFooter, setPageTitle, setLayout, setShowFooter, resetSettings } = useSettingsStore();
+  const { pageTitle, layout, showFooter, gridCols, gridRowHeight, setPageTitle, setLayout, setShowFooter, setGridCols, setGridRowHeight, resetSettings } = useSettingsStore();
   const { mode, setMode } = useThemeStore();
   const { enqueueSnackbar } = useSnackbar();
   
   const [localTitle, setLocalTitle] = useState(pageTitle);
+  const [localGridCols, setLocalGridCols] = useState(gridCols);
+  const [localGridRowHeight, setLocalGridRowHeight] = useState(gridRowHeight);
 
   const handleSave = () => {
     setPageTitle(localTitle);
+    setGridCols(localGridCols);
+    setGridRowHeight(localGridRowHeight);
     enqueueSnackbar('Settings saved successfully', { variant: 'success' });
   };
 
@@ -41,6 +45,8 @@ export default function SettingsPage() {
     resetSettings();
     setMode('dark');
     setLocalTitle('Dasheeo');
+    setLocalGridCols(14);
+    setLocalGridRowHeight(100);
     enqueueSnackbar('Settings reverted to defaults', { variant: 'info' });
   };
 
@@ -64,6 +70,29 @@ export default function SettingsPage() {
             value={localTitle}
             onChange={(e) => setLocalTitle(e.target.value)}
             fullWidth
+            sx={{ mb: 3 }}
+          />
+          <Typography variant="h6" gutterBottom sx={{ mt: 3 }}>
+            Grid Settings
+          </Typography>
+          <TextField
+            label="Grid Columns"
+            type="number"
+            value={localGridCols}
+            onChange={(e) => setLocalGridCols(Number(e.target.value))}
+            fullWidth
+            inputProps={{ min: 6, max: 24 }}
+            helperText="Number of columns (6-24)"
+            sx={{ mb: 2 }}
+          />
+          <TextField
+            label="Row Height (px)"
+            type="number"
+            value={localGridRowHeight}
+            onChange={(e) => setLocalGridRowHeight(Number(e.target.value))}
+            fullWidth
+            inputProps={{ min: 50, max: 300 }}
+            helperText="Height of each row (50-300px)"
             sx={{ mb: 3 }}
           />
           <Box sx={{ mb: 3 }}>
