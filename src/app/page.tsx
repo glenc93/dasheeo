@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Container, IconButton, Toolbar, Typography, Button, Drawer, List, ListItem } from '@mui/material';
+import { Box, Container, IconButton, Toolbar, Typography, Button, Drawer, List, ListItem } from '@mui/material';    
 import { Settings, Add, Menu } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
 import { useSettingsStore } from '@/store/settingsStore';
@@ -17,7 +17,7 @@ export default function Home() {
   const [createOpen, setCreateOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  const handleCreateWidget = (widgetData: { name: string; type: string; apiUrl?: string; apiKey?: string }) => {
+  const handleCreateWidget = (widgetData: { name: string; type: string; apiUrl?: string; apiKey?: string }) => {    
     const newWidget = {
       id: `widget-${Date.now()}`,
       type: widgetData.type,
@@ -35,9 +35,9 @@ export default function Home() {
   };
 
   const sidebarContent = (
-    <Box sx={{ width: 250, p: 2 }}>
+    <Box sx={{ width: 250, p: 2, overflowX: 'hidden' }}>
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
-        <Typography variant="h5">
+        <Typography variant="h5" noWrap>
           {pageTitle}
         </Typography>
         <IconButton onClick={() => router.push('/settings')} color="inherit" size="small">
@@ -45,7 +45,7 @@ export default function Home() {
         </IconButton>
       </Box>
       <List>
-        <ListItem>
+        <ListItem sx={{ px: 0 }}>
           <Button startIcon={<Add />} variant="contained" onClick={() => setCreateOpen(true)} fullWidth>
             Add Widget
           </Button>
@@ -56,14 +56,14 @@ export default function Home() {
 
   if (layout === 'sidebar-left') {
     return (
-      <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', bgcolor: 'background.default' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', bgcolor: 'background.default' }}>    
         <Box sx={{ display: 'flex', flexGrow: 1 }}>
           <Drawer
             variant="permanent"
             sx={{
               width: 250,
               flexShrink: 0,
-              '& .MuiDrawer-paper': { width: 250, boxSizing: 'border-box', bgcolor: 'background.paper' },
+              '& .MuiDrawer-paper': { width: 250, boxSizing: 'border-box', bgcolor: 'background.paper', overflowX: 'hidden' },
             }}
           >
             {sidebarContent}
@@ -73,14 +73,14 @@ export default function Home() {
           </Box>
         </Box>
         {showFooter && <Footer />}
-        <WidgetCreateDialog open={createOpen} onClose={() => setCreateOpen(false)} onCreate={handleCreateWidget} />
+        <WidgetCreateDialog open={createOpen} onClose={() => setCreateOpen(false)} onCreate={handleCreateWidget} /> 
       </Box>
     );
   }
 
   if (layout === 'sidebar-right') {
     return (
-      <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', bgcolor: 'background.default' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', bgcolor: 'background.default' }}>    
         <Box sx={{ display: 'flex', flexGrow: 1 }}>
           <Box sx={{ flexGrow: 1, p: 3 }}>
             <DashboardGrid />
@@ -91,20 +91,20 @@ export default function Home() {
             sx={{
               width: 250,
               flexShrink: 0,
-              '& .MuiDrawer-paper': { width: 250, boxSizing: 'border-box', bgcolor: 'background.paper' },
+              '& .MuiDrawer-paper': { width: 250, boxSizing: 'border-box', bgcolor: 'background.paper', overflowX: 'hidden' },
             }}
           >
             {sidebarContent}
           </Drawer>
         </Box>
         {showFooter && <Footer />}
-        <WidgetCreateDialog open={createOpen} onClose={() => setCreateOpen(false)} onCreate={handleCreateWidget} />
+        <WidgetCreateDialog open={createOpen} onClose={() => setCreateOpen(false)} onCreate={handleCreateWidget} /> 
       </Box>
     );
   }
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', bgcolor: 'background.default' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', bgcolor: 'background.default' }}>      
       <Toolbar sx={{ borderBottom: 1, borderColor: 'divider', mb: 2 }}>
         <Typography variant="h5" component="h1" sx={{ flexGrow: 1 }}>
           {pageTitle}

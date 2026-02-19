@@ -15,13 +15,13 @@ export const lightTheme = createTheme({
       styleOverrides: {
         root: {
           '& .MuiInputLabel-root': {
-            color: '#bd93f9',
+            color: 'rgba(0, 0, 0, 0.6)',
           },
           '& .MuiInputLabel-root.Mui-focused': {
             color: '#bd93f9',
           },
           '& .MuiFormHelperText-root': {
-            color: '#bd93f9',
+            color: 'rgba(0, 0, 0, 0.6)',
           },
         },
       },
@@ -29,7 +29,7 @@ export const lightTheme = createTheme({
     MuiFormLabel: {
       styleOverrides: {
         root: {
-          color: '#bd93f9',
+          color: 'rgba(0, 0, 0, 0.6)',
         },
       },
     },
