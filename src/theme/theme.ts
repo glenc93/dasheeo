@@ -4,10 +4,10 @@ export const lightTheme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#bd93f9',
+      main: '#000000',
     },
     secondary: {
-      main: '#ff79c6',
+      main: '#424242',
     },
   },
   components: {
@@ -18,7 +18,7 @@ export const lightTheme = createTheme({
             color: 'rgba(0, 0, 0, 0.6)',
           },
           '& .MuiInputLabel-root.Mui-focused': {
-            color: '#bd93f9',
+            color: '#000000',
           },
           '& .MuiFormHelperText-root': {
             color: 'rgba(0, 0, 0, 0.6)',
@@ -40,10 +40,10 @@ export const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#bd93f9',
+      main: '#ffffff',
     },
     secondary: {
-      main: '#ff79c6',
+      main: '#ffffff',
     },
     background: {
       default: '#282a36',
@@ -71,13 +71,13 @@ export const darkTheme = createTheme({
       styleOverrides: {
         root: {
           '& .MuiInputLabel-root': {
-            color: '#bd93f9',
+            color: '#ffffff',
           },
           '& .MuiInputLabel-root.Mui-focused': {
-            color: '#bd93f9',
+            color: '#ffffff',
           },
           '& .MuiFormHelperText-root': {
-            color: '#bd93f9',
+            color: '#ffffff',
           },
         },
       },
@@ -85,7 +85,7 @@ export const darkTheme = createTheme({
     MuiFormLabel: {
       styleOverrides: {
         root: {
-          color: '#bd93f9',
+          color: '#ffffff',
         },
       },
     },
