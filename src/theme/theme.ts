@@ -4,7 +4,8 @@ export const lightTheme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#000000',
+      main: '#1976d2',
+      contrastText: '#ffffff',
     },
     secondary: {
       main: '#424242',
@@ -18,7 +19,7 @@ export const lightTheme = createTheme({
             color: 'rgba(0, 0, 0, 0.6)',
           },
           '& .MuiInputLabel-root.Mui-focused': {
-            color: '#000000',
+            color: '#1976d2',
           },
           '& .MuiFormHelperText-root': {
             color: 'rgba(0, 0, 0, 0.6)',
