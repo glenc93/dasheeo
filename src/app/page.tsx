@@ -7,7 +7,7 @@ import { useSettingsStore } from '@/store/settingsStore';
 import { useDashboardStore } from '@/store/dashboardStore';
 import { DashboardGrid } from '@/components/DashboardGrid';
 import { Footer } from '@/components/Footer';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { WidgetCreateDialog } from '@/components/WidgetCreateDialog';
 
 export default function Home() {
@@ -16,6 +16,10 @@ export default function Home() {
   const addWidget = useDashboardStore((state) => state.addWidget);
   const [createOpen, setCreateOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  useEffect(() => {
+    document.title = pageTitle;
+  }, [pageTitle]);
 
   const handleCreateWidget = (widgetData: { name: string; type: string; apiUrl?: string; apiKey?: string }) => {    
     const newWidget = {
