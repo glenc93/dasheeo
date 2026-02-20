@@ -4,7 +4,7 @@ export const lightTheme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#1976d2',
+      main: '#4b7bec',
       contrastText: '#ffffff',
     },
     secondary: {
@@ -19,7 +19,7 @@ export const lightTheme = createTheme({
             color: 'rgba(0, 0, 0, 0.6)',
           },
           '& .MuiInputLabel-root.Mui-focused': {
-            color: '#1976d2',
+            color: '#4b7bec',
           },
           '& .MuiFormHelperText-root': {
             color: 'rgba(0, 0, 0, 0.6)',
@@ -41,7 +41,8 @@ export const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#ffffff',
+      main: '#4b7bec',
+      contrastText: '#ffffff',
     },
     secondary: {
       main: '#ffffff',

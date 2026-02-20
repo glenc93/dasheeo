@@ -16,7 +16,7 @@ export function Footer() {
         textAlign: 'center',
       }}
     >
-      <Typography variant="body2" color="primary.main">
+      <Typography variant="body2" color="#ffffff">
         © {new Date().getFullYear()} Dasheeo
       </Typography>
     </Box>
