@@ -1,14 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDashboardStore } from '@/store/dashboardStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useThemeStore } from '@/store/themeStore';
 import { loadConfig } from '@/lib/configSync';
 
 export function ConfigLoader({ children }: { children: React.ReactNode }) {
-  const [loaded, setLoaded] = useState(false);
-
   useEffect(() => {
     loadConfig().then((config) => {
       if (config && (config.widgets?.length > 0 || config.settings || config.theme)) {
@@ -22,10 +20,8 @@ export function ConfigLoader({ children }: { children: React.ReactNode }) {
           useThemeStore.getState().loadTheme(config.theme.mode);
         }
       }
-      setLoaded(true);
-    });
+    }).catch((err) => console.error('Failed to load config:', err));
   }, []);
 
-  if (!loaded) return null;
   return <>{children}</>;
 }
