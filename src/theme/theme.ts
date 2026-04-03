@@ -4,10 +4,35 @@ export const lightTheme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#bd93f9',
+      main: '#4b7bec',
+      contrastText: '#ffffff',
     },
     secondary: {
-      main: '#ff79c6',
+      main: '#424242',
+    },
+  },
+  components: {
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          '& .MuiInputLabel-root': {
+            color: 'rgba(0, 0, 0, 0.6)',
+          },
+          '& .MuiInputLabel-root.Mui-focused': {
+            color: '#4b7bec',
+          },
+          '& .MuiFormHelperText-root': {
+            color: 'rgba(0, 0, 0, 0.6)',
+          },
+        },
+      },
+    },
+    MuiFormLabel: {
+      styleOverrides: {
+        root: {
+          color: 'rgba(0, 0, 0, 0.6)',
+        },
+      },
     },
   },
 });
@@ -16,10 +41,11 @@ export const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#bd93f9',
+      main: '#4b7bec',
+      contrastText: '#ffffff',
     },
     secondary: {
-      main: '#ff79c6',
+      main: '#ffffff',
     },
     background: {
       default: '#282a36',
@@ -40,6 +66,30 @@ export const darkTheme = createTheme({
     },
     success: {
       main: '#50fa7b',
+    },
+  },
+  components: {
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          '& .MuiInputLabel-root': {
+            color: '#ffffff',
+          },
+          '& .MuiInputLabel-root.Mui-focused': {
+            color: '#ffffff',
+          },
+          '& .MuiFormHelperText-root': {
+            color: '#ffffff',
+          },
+        },
+      },
+    },
+    MuiFormLabel: {
+      styleOverrides: {
+        root: {
+          color: '#ffffff',
+        },
+      },
     },
   },
 });

@@ -4,7 +4,7 @@ Dasheeo is a customizable dashboard project for homelab environments. Built with
 
 ## Features
 
-- 🎨 Material-UI components with dark/light theme (Dracula colors)
+- 🎨 Material-UI components with dark/light theme
 - 📊 Drag-and-drop widget system with resizing
 - 🔌 Per-widget API configuration (URL + key)
 - 🔒 API proxy for self-hosted services (avoids CORS)
@@ -67,4 +67,8 @@ src/
 ├── lib/             # Utilities and providers
 └── types/           # TypeScript types
 ```
+
+## License
+
+MIT License - see [LICENSE](LICENSE) file for details
 

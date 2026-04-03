@@ -53,10 +53,6 @@ export function WidgetCreateDialog({ open, onClose, onCreate }: WidgetCreateDial
             onChange={(e) => setName(e.target.value)}
             fullWidth
             required
-            sx={{
-              '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' },
-              '& .MuiFormHelperText-root': { color: 'rgba(255, 255, 255, 0.7)' },
-            }}
           />
           <TextField
             label="Service Type"
@@ -65,10 +61,6 @@ export function WidgetCreateDialog({ open, onClose, onCreate }: WidgetCreateDial
             fullWidth
             required
             helperText="e.g., plex, sonarr, radarr"
-            sx={{
-              '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' },
-              '& .MuiFormHelperText-root': { color: 'rgba(255, 255, 255, 0.7)' },
-            }}
           />
           <TextField
             label="API URL"
@@ -76,10 +68,6 @@ export function WidgetCreateDialog({ open, onClose, onCreate }: WidgetCreateDial
             onChange={(e) => setApiUrl(e.target.value)}
             fullWidth
             helperText="e.g., http://192.168.1.100:8989"
-            sx={{
-              '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' },
-              '& .MuiFormHelperText-root': { color: 'rgba(255, 255, 255, 0.7)' },
-            }}
           />
           <TextField
             label="API Key"
@@ -88,10 +76,6 @@ export function WidgetCreateDialog({ open, onClose, onCreate }: WidgetCreateDial
             fullWidth
             type="password"
             helperText="Optional: API key or token"
-            sx={{
-              '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' },
-              '& .MuiFormHelperText-root': { color: 'rgba(255, 255, 255, 0.7)' },
-            }}
           />
         </Stack>
       </DialogContent>

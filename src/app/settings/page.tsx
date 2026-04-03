@@ -7,7 +7,6 @@ import {
   TextField,
   Typography,
   Switch,
-  FormControlLabel,
   IconButton,
   Toolbar,
   Button,
@@ -15,24 +14,32 @@ import {
   FormLabel,
   ToggleButtonGroup,
   ToggleButton,
+  Tabs,
+  Tab,
 } from '@mui/material';
-import { ArrowBack, ViewDay, ViewSidebar, ViewSidebarOutlined } from '@mui/icons-material';
+import { ArrowBack, ViewDay, ViewSidebar, ViewSidebarOutlined, LightMode, DarkMode, Visibility, VisibilityOff } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useThemeStore } from '@/store/themeStore';
+import { Footer } from '@/components/Footer';
 import { useState } from 'react';
 import { useSnackbar } from 'notistack';
 
 export default function SettingsPage() {
   const router = useRouter();
-  const { pageTitle, layout, setPageTitle, setLayout, resetSettings } = useSettingsStore();
+  const { pageTitle, layout, showFooter, gridCols, gridRowHeight, setPageTitle, setLayout, setShowFooter, setGridCols, setGridRowHeight, resetSettings } = useSettingsStore();
   const { mode, setMode } = useThemeStore();
   const { enqueueSnackbar } = useSnackbar();
   
   const [localTitle, setLocalTitle] = useState(pageTitle);
+  const [localGridCols, setLocalGridCols] = useState(gridCols);
+  const [localGridRowHeight, setLocalGridRowHeight] = useState(gridRowHeight);
+  const [tab, setTab] = useState(0);
 
   const handleSave = () => {
     setPageTitle(localTitle);
+    setGridCols(localGridCols);
+    setGridRowHeight(localGridRowHeight);
     enqueueSnackbar('Settings saved successfully', { variant: 'success' });
   };
 
@@ -40,11 +47,13 @@ export default function SettingsPage() {
     resetSettings();
     setMode('dark');
     setLocalTitle('Dasheeo');
+    setLocalGridCols(14);
+    setLocalGridRowHeight(100);
     enqueueSnackbar('Settings reverted to defaults', { variant: 'info' });
   };
 
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', bgcolor: 'background.default' }}>
       <Toolbar sx={{ borderBottom: 1, borderColor: 'divider', mb: 2 }}>
         <IconButton onClick={() => router.push('/')} sx={{ mr: 2 }}>
           <ArrowBack />
@@ -53,52 +62,100 @@ export default function SettingsPage() {
           Settings
         </Typography>
       </Toolbar>
-      <Container maxWidth="md">
+      <Container maxWidth="md" sx={{ flexGrow: 1 }}>
         <Paper sx={{ p: 3 }}>
-          <Typography variant="h6" gutterBottom>
-            General Settings
-          </Typography>
-          <TextField
-            label="Page Title"
-            value={localTitle}
-            onChange={(e) => setLocalTitle(e.target.value)}
-            fullWidth
-            sx={{ mb: 3 }}
-          />
-          <FormControlLabel
-            control={
-              <Switch
-                checked={mode === 'light'}
-                onChange={(e) => setMode(e.target.checked ? 'light' : 'dark')}
+          <Tabs value={tab} onChange={(e, v) => setTab(v)} sx={{ mb: 3, borderBottom: 1, borderColor: 'divider' }}>
+            <Tab label="General" />
+            <Tab label="Layout" />
+          </Tabs>
+
+          {tab === 0 && (
+            <Box>
+              <TextField
+                label="Page Title"
+                value={localTitle}
+                onChange={(e) => setLocalTitle(e.target.value)}
+                fullWidth
+                sx={{ mb: 3 }}
               />
-            }
-            label="Light Mode"
-            sx={{ mb: 3, display: 'block' }}
-          />
-          <Box sx={{ mb: 3 }}>
-            <FormLabel component="legend" sx={{ mb: 1 }}>
-              Layout
-            </FormLabel>
-            <ToggleButtonGroup
-              value={layout}
-              exclusive
-              onChange={(e, newLayout) => newLayout && setLayout(newLayout)}
-              aria-label="layout"
-            >
-              <ToggleButton value="default" aria-label="default layout">
-                <ViewDay sx={{ mr: 1 }} />
-                Top Bar
-              </ToggleButton>
-              <ToggleButton value="sidebar-left" aria-label="sidebar left">
-                <ViewSidebar sx={{ mr: 1 }} />
-                Left
-              </ToggleButton>
-              <ToggleButton value="sidebar-right" aria-label="sidebar right">
-                <ViewSidebarOutlined sx={{ mr: 1, transform: 'scaleX(-1)' }} />
-                Right
-              </ToggleButton>
-            </ToggleButtonGroup>
-          </Box>
+              <Box sx={{ mb: 3 }}>
+                <FormLabel component="legend" sx={{ mb: 1 }}>
+                  Theme
+                </FormLabel>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <DarkMode />
+                  <Switch
+                    checked={mode === 'light'}
+                    onChange={(e) => setMode(e.target.checked ? 'light' : 'dark')}
+                  />
+                  <LightMode />
+                </Box>
+              </Box>
+              <Box sx={{ mb: 3 }}>
+                <FormLabel component="legend" sx={{ mb: 1 }}>
+                  Footer
+                </FormLabel>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <VisibilityOff />
+                  <Switch
+                    checked={showFooter}
+                    onChange={(e) => setShowFooter(e.target.checked)}
+                  />
+                  <Visibility />
+                </Box>
+              </Box>
+            </Box>
+          )}
+
+          {tab === 1 && (
+            <Box>
+              <Box sx={{ mb: 3 }}>
+                <FormLabel component="legend" sx={{ mb: 1 }}>
+                  Layout Style
+                </FormLabel>
+                <ToggleButtonGroup
+                  value={layout}
+                  exclusive
+                  onChange={(e, newLayout) => newLayout && setLayout(newLayout)}
+                  aria-label="layout"
+                >
+                  <ToggleButton value="default" aria-label="default layout">
+                    <ViewDay sx={{ mr: 1 }} />
+                    Top Bar
+                  </ToggleButton>
+                  <ToggleButton value="sidebar-left" aria-label="sidebar left">
+                    <ViewSidebar sx={{ mr: 1 }} />
+                    Left
+                  </ToggleButton>
+                  <ToggleButton value="sidebar-right" aria-label="sidebar right">
+                    <ViewSidebarOutlined sx={{ mr: 1, transform: 'scaleX(-1)' }} />
+                    Right
+                  </ToggleButton>
+                </ToggleButtonGroup>
+              </Box>
+              <TextField
+                label="Grid Columns"
+                type="number"
+                value={localGridCols}
+                onChange={(e) => setLocalGridCols(Number(e.target.value))}
+                fullWidth
+                inputProps={{ min: 6, max: 24 }}
+                helperText="Number of columns (6-24)"
+                sx={{ mb: 2 }}
+              />
+              <TextField
+                label="Row Height (px)"
+                type="number"
+                value={localGridRowHeight}
+                onChange={(e) => setLocalGridRowHeight(Number(e.target.value))}
+                fullWidth
+                inputProps={{ min: 50, max: 300 }}
+                helperText="Height of each row (50-300px)"
+                sx={{ mb: 3 }}
+              />
+            </Box>
+          )}
+
           <Stack direction="row" spacing={2}>
             <Button variant="contained" onClick={handleSave}>
               Save
@@ -109,6 +166,7 @@ export default function SettingsPage() {
           </Stack>
         </Paper>
       </Container>
+      <Footer />
     </Box>
   );
 }

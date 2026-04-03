@@ -1,22 +1,27 @@
 'use client';
 
-import { Box, Container, IconButton, Toolbar, Typography, Button, Drawer, List, ListItem } from '@mui/material';
+import { Box, Container, IconButton, Toolbar, Typography, Button, Drawer, List, ListItem } from '@mui/material';    
 import { Settings, Add, Menu } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useDashboardStore } from '@/store/dashboardStore';
 import { DashboardGrid } from '@/components/DashboardGrid';
-import { useState } from 'react';
+import { Footer } from '@/components/Footer';
+import { useState, useEffect } from 'react';
 import { WidgetCreateDialog } from '@/components/WidgetCreateDialog';
 
 export default function Home() {
   const router = useRouter();
-  const { pageTitle, layout } = useSettingsStore();
+  const { pageTitle, layout, showFooter } = useSettingsStore();
   const addWidget = useDashboardStore((state) => state.addWidget);
   const [createOpen, setCreateOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  const handleCreateWidget = (widgetData: { name: string; type: string; apiUrl?: string; apiKey?: string }) => {
+  useEffect(() => {
+    document.title = pageTitle;
+  }, [pageTitle]);
+
+  const handleCreateWidget = (widgetData: { name: string; type: string; apiUrl?: string; apiKey?: string }) => {    
     const newWidget = {
       id: `widget-${Date.now()}`,
       type: widgetData.type,
@@ -34,9 +39,9 @@ export default function Home() {
   };
 
   const sidebarContent = (
-    <Box sx={{ width: 250, p: 2 }}>
+    <Box sx={{ width: 250, p: 2, overflowX: 'hidden' }}>
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
-        <Typography variant="h5">
+        <Typography variant="h5" noWrap>
           {pageTitle}
         </Typography>
         <IconButton onClick={() => router.push('/settings')} color="inherit" size="small">
@@ -44,7 +49,7 @@ export default function Home() {
         </IconButton>
       </Box>
       <List>
-        <ListItem>
+        <ListItem sx={{ px: 0 }}>
           <Button startIcon={<Add />} variant="contained" onClick={() => setCreateOpen(true)} fullWidth>
             Add Widget
           </Button>
@@ -55,49 +60,55 @@ export default function Home() {
 
   if (layout === 'sidebar-left') {
     return (
-      <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: 'background.default' }}>
-        <Drawer
-          variant="permanent"
-          sx={{
-            width: 250,
-            flexShrink: 0,
-            '& .MuiDrawer-paper': { width: 250, boxSizing: 'border-box', bgcolor: 'background.paper' },
-          }}
-        >
-          {sidebarContent}
-        </Drawer>
-        <Box sx={{ flexGrow: 1, p: 3 }}>
-          <DashboardGrid />
+      <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', bgcolor: 'background.default' }}>    
+        <Box sx={{ display: 'flex', flexGrow: 1 }}>
+          <Drawer
+            variant="permanent"
+            sx={{
+              width: 250,
+              flexShrink: 0,
+              '& .MuiDrawer-paper': { width: 250, boxSizing: 'border-box', bgcolor: 'background.paper', overflowX: 'hidden' },
+            }}
+          >
+            {sidebarContent}
+          </Drawer>
+          <Box sx={{ flexGrow: 1, p: 3 }}>
+            <DashboardGrid />
+          </Box>
         </Box>
-        <WidgetCreateDialog open={createOpen} onClose={() => setCreateOpen(false)} onCreate={handleCreateWidget} />
+        {showFooter && <Footer />}
+        <WidgetCreateDialog open={createOpen} onClose={() => setCreateOpen(false)} onCreate={handleCreateWidget} /> 
       </Box>
     );
   }
 
   if (layout === 'sidebar-right') {
     return (
-      <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: 'background.default' }}>
-        <Box sx={{ flexGrow: 1, p: 3 }}>
-          <DashboardGrid />
+      <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', bgcolor: 'background.default' }}>    
+        <Box sx={{ display: 'flex', flexGrow: 1 }}>
+          <Box sx={{ flexGrow: 1, p: 3 }}>
+            <DashboardGrid />
+          </Box>
+          <Drawer
+            variant="permanent"
+            anchor="right"
+            sx={{
+              width: 250,
+              flexShrink: 0,
+              '& .MuiDrawer-paper': { width: 250, boxSizing: 'border-box', bgcolor: 'background.paper', overflowX: 'hidden' },
+            }}
+          >
+            {sidebarContent}
+          </Drawer>
         </Box>
-        <Drawer
-          variant="permanent"
-          anchor="right"
-          sx={{
-            width: 250,
-            flexShrink: 0,
-            '& .MuiDrawer-paper': { width: 250, boxSizing: 'border-box', bgcolor: 'background.paper' },
-          }}
-        >
-          {sidebarContent}
-        </Drawer>
-        <WidgetCreateDialog open={createOpen} onClose={() => setCreateOpen(false)} onCreate={handleCreateWidget} />
+        {showFooter && <Footer />}
+        <WidgetCreateDialog open={createOpen} onClose={() => setCreateOpen(false)} onCreate={handleCreateWidget} /> 
       </Box>
     );
   }
 
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', bgcolor: 'background.default' }}>      
       <Toolbar sx={{ borderBottom: 1, borderColor: 'divider', mb: 2 }}>
         <Typography variant="h5" component="h1" sx={{ flexGrow: 1 }}>
           {pageTitle}
@@ -109,9 +120,10 @@ export default function Home() {
           <Settings />
         </IconButton>
       </Toolbar>
-      <Container maxWidth={false}>
+      <Container maxWidth={false} sx={{ flexGrow: 1 }}>
         <DashboardGrid />
       </Container>
+      {showFooter && <Footer />}
       <WidgetCreateDialog
         open={createOpen}
         onClose={() => setCreateOpen(false)}
